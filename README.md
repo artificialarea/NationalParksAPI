@@ -1,4 +1,4 @@
-# NationalParksAPI-pair
+# NationalParksAPI
 
-**PAIR:** Brian / Sacha
+**LIVE:** https://artificialarea.github.io/NationalParksAPI/
 
