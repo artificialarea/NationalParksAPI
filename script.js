@@ -37,17 +37,45 @@
 
 // INIT
 function init() {
-
+  handleSubmission();
 }
 
 // MISCELLANEOUS /////////////////////////////////////////////
+
+function formatQueryParams(params) {
+
+}
+
+function fetchStateParkInfo(selectedState, maxResults) {
+  console.log(selectedState, maxResults);
+
+  // params object
+  // formatQueryParams(params);
+  // fetch
+  // renderingResults();
+}
 
 // TEMPLATE GENERATORS ///////////////////////////////////////
 
 // RENDERING FUNCTIONS ///////////////////////////////////////
 
-// EVENT HANDLERS ////////////////////////////////////////////
+function renderingResults() {
+  // generating HTML 
+  // rendering HTML in da DOM
+}
 
+// EVENT HANDLERS ////////////////////////////////////////////
+function handleSubmission() {
+  // get values of submission
+  $('#search-form').on('submit', event => {
+    event.preventDefault();
+    const selectedState = $('#js-select-state').val();
+    const maxResults = $('#max-num-results').val();
+    // fetch data
+    fetchStateParkInfo(selectedState, maxResults);
+
+  })
+}
 
 // INVOKE INIT
 $(init);
