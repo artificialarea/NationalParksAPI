@@ -33,6 +33,7 @@
 
 // INIT
 function init() {
+  renderDropdownMenu();
   handleSubmission();
 }
 
@@ -65,7 +66,31 @@ function fetchStateParkInfo(selectedState, maxResults) {
   // renderingResults();
 }
 
+function fetchListOfStates() {
+  // fetch list of states available
+  // ^^^^^^^^ couldn't find in National Park Service API so added store.js file to locally store an array of objects of states by name and abbreviation to populate dropdown.
+}
+
+
+
 // TEMPLATE GENERATORS ///////////////////////////////////////
+
+function generateDropdownMenu(STATES) {
+  // extract .map all relevant key/values into array
+  // return as string of <options>
+  // console.log(STATES);
+  const options = STATES.map(item => {
+    // console.log(item.name);
+    return `<option value=${item.abbreviation}>${item.name}</option>`;
+  });
+  // console.log(options);
+  return `
+    <option value="" disabled selected>Select a State</option>
+    ${options}
+  `;
+}
+
+
 
 // RENDERING FUNCTIONS ///////////////////////////////////////
 
@@ -73,6 +98,19 @@ function renderingResults() {
   // generating HTML 
   // rendering HTML in da DOM
 }
+
+function renderDropdownMenu() {
+  // fetch list of states available
+  // ^^^^^^^^ couldn't find in National Park Service API so added store.js file to locally store an array of objects of states by name and abbreviation to populate dropdown.
+  
+  // generate list of <options>
+  const listOfStates = generateDropdownMenu(STATES);
+
+  // render HTML in the DOM
+  $('#js-select-state').html(listOfStates);
+}
+
+
 
 // EVENT HANDLERS ////////////////////////////////////////////
 function handleSubmission() {
