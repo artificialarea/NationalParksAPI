@@ -23,10 +23,6 @@
 
 
 
-
-
-
-
 //////////////////////////////////////////////////////////////
 // SEPARATION OF CONCERNS: TYPES OF FUNCTIONS
 // (Miscellaneous): Fetch Data
@@ -46,8 +42,7 @@ function formatQueryParams(params) {
   const queryItems = Object.keys(params).map( key => {
     return `${key}=${params[key]}`;
   });
-  console.log(queryItems);
-
+  return queryItems.join('&');  
 }
 
 function fetchStateParkInfo(selectedState, maxResults) {
@@ -63,11 +58,9 @@ function fetchStateParkInfo(selectedState, maxResults) {
   };
 
   const queryString = formatQueryParams(params);
-
   const url = baseURL + "?" + queryString;
+  console.log(url);
 
-  // params object
-  // formatQueryParams(params);
   // fetch
   // renderingResults();
 }
