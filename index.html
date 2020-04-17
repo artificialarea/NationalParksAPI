@@ -19,15 +19,15 @@
       <h1>National Park Service Finder</h1>
     </header>
     <form id="search-form">
-      <label>State:</label>
+      <label for="select-date">State:</label>
       <select id="js-select-state" name="select-state" placeholder="Select State..." required></select>
-      <!-- <input type="text" id="js-select-state" name="select-state" placeholder="Type State Abreviaton..." required> -->
-      <label>Number of results:</label>
+      <label for="max-num-results">Limit number of results to:</label>
       <input type="text" id="max-num-results" name="max-num-results" value="10" required>
       <button type="submit">Submit</button>
     </form>
 
     <p class="js-error-msg hidden"></p>
+    <p class="js-please-wait hidden"></p>
 
     <section id="js-search-results hidden">
       <ul id="js-list-results"></ul>
