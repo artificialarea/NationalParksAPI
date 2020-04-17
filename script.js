@@ -128,9 +128,6 @@ function generateDropdownMenu(STATES) {
 
 // generate HTML & then render into DOM
 function renderStateParkInfo(dataInfo) {
-  // clear out previous result, if applicable
-  $('#js-list-results').empty();
-  // generate info into HTML
   // const results = generateStateParkInfo(dataInfo);
   for (let i=0; i < dataInfo.data.length; i++) {
     $('#js-list-results').append(`
@@ -167,7 +164,8 @@ function handleSubmission() {
     const selectedState = $('#js-select-state').val();
     const maxResults = $('#max-num-results').val();
     fetchStateParkInfo(selectedState, maxResults);
-
+    // clear out previous result, if applicable
+    $('#js-list-results').empty();
   });
 }
 
