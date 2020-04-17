@@ -43,11 +43,28 @@ function init() {
 // MISCELLANEOUS /////////////////////////////////////////////
 
 function formatQueryParams(params) {
+  const queryItems = Object.keys(params).map( key => {
+    return `${key}=${params[key]}`;
+  });
+  console.log(queryItems);
 
 }
 
 function fetchStateParkInfo(selectedState, maxResults) {
-  console.log(selectedState, maxResults);
+  // console.log(selectedStat-e, maxResults);
+
+  const apiKey = '5sSsm7fFCYCquxRBY5P0IVUu9Y1OX70vBJb4algf';
+  const baseURL = 'https://developer.nps.gov/api/v1/parks';
+
+  const params = {
+    stateCode: selectedState,
+    limit: maxResults,
+    api_key: apiKey,
+  };
+
+  const queryString = formatQueryParams(params);
+
+  const url = baseURL + "?" + queryString;
 
   // params object
   // formatQueryParams(params);
