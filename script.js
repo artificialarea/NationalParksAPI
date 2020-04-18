@@ -42,10 +42,43 @@ function init() {
 
 function formatQueryParams(params) {
   const queryItems = Object.keys(params).map( key => {
-    return `${encodeURIComponent(key)}=${encodeURIComponent(params[key])}`;
+    return `${key}=${params[key]}`;
+
+    // had to remove encodeURIComponent 
+    // because for google maps URL it converts the comma (,)
+    // in latlng to %2C 
+    // e.g. ...latlng=37.81005871%2C-122.4244415
+    // return `${encodeURIComponent(key)}=${encodeURIComponent(params[key])}`;
   });
   return queryItems.join('&');  
 }
+
+function fetchAddress(latitude, longitude) {
+
+  const apiKey = 'AIzaSyBN2R4SyxDVgxSicynY7L44gvqBrfWzHpI';
+  const baseURL = 'https://maps.googleapis.com/maps/api/geocode/json';
+
+  const params = {
+    key: apiKey,
+    latlng: latitude + ',' + longitude,
+  };
+  
+  const queryString = formatQueryParams(params);
+  
+  const url = baseURL + '?' + queryString;
+  console.log(url);
+
+  fetch(url)
+  .then(response => response.json)
+  .then(data => {
+    console.log(data);
+    // renderStateParkAddress(data);
+  })
+  .catch(err => console.log(err));
+
+}
+
+
 
 function fetchStateParkInfo(state, maxResults) {
   console.log(state, maxResults);
@@ -124,20 +157,46 @@ function generateDropdownMenu(STATES) {
 
 // RENDERING FUNCTIONS ///////////////////////////////////////
 
+function renderStateParkAddress(dataInfo) {
+  console.log(JSON.stringify(dataInfo));
+  // $('#js-address-results').append(
+  //   `<li>
+  //       <p>${dataInfo.results[0].formatted_address}</p>
+  //   </li>`
+  // );
+
+  $('#js-address-test').removeClass('hidden');
+
+}
+
+
 // ** REFACTOR **
 // to use generateStateParkInfo(), too.
 
 // generate HTML & then render into DOM
 function renderStateParkInfo(dataInfo) {
   // const results = generateStateParkInfo(dataInfo);
-  for (let i=0; i < dataInfo.data.length; i++) {
-    $('#js-list-results').append(`
-    <li> 
 
-      <h3 class="park-name">${dataInfo.data[i].fullName}</h3>
-      <p class="park-description">${dataInfo.data[i].description}</p>
-      <p class="park-website"><a href="${dataInfo.data[i].url}" target="_blank">${dataInfo.data[i].url}</a></p>
-    </li>`);
+  for (let i=0; i < dataInfo.data.length; i++) {
+
+    // get latitude and longitude to reverse geocode the address
+    // via Google Maps Geocode API
+    const latitude = dataInfo.data[i].latitude;
+    const longitude = dataInfo.data[i].longitude;
+    fetchAddress(latitude, longitude);
+    // ^^^^^^^^^^^^^^
+    // Suspending attempt to get address because exeeded timebox
+    // ** REFACTOR ** later
+
+    // proceed with rendering National Park data
+    $('#js-list-results').append(
+      `<li> 
+        <h3 class="park-name">${dataInfo.data[i].fullName}</h3>
+        <p class="park-description">${dataInfo.data[i].description}</p>
+        <p class="park-website"><a href="${dataInfo.data[i].url}" target="_blank">${dataInfo.data[i].url}</a></p>
+        <p class="park-address"></p>
+      </li>`
+    );
   }
   // <li class="park-address">${dataInfo.data[i].addresses[0]}<li>
   // ^^^^^^^ ** REFACTOR **
