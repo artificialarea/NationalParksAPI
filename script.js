@@ -55,7 +55,7 @@ function formatQueryParams(params) {
 
 function fetchAddress(latitude, longitude) {
 
-  const apiKey = 'AIzaSyBN2R4SyxDVgxSicynY7L44gvqBrfWzHpI';
+  const apiKey = /* removed so not public */;
   const baseURL = 'https://maps.googleapis.com/maps/api/geocode/json';
 
   const params = {
