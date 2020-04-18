@@ -55,7 +55,7 @@ function formatQueryParams(params) {
 
 function fetchAddress(latitude, longitude) {
 
-  const apiKey = /* removed so not public */;
+  const apiKey =  'removed so not public';
   const baseURL = 'https://maps.googleapis.com/maps/api/geocode/json';
 
   const params = {
@@ -157,6 +157,7 @@ function generateDropdownMenu(STATES) {
 
 // RENDERING FUNCTIONS ///////////////////////////////////////
 
+// N/A
 function renderStateParkAddress(dataInfo) {
   console.log(JSON.stringify(dataInfo));
   // $('#js-address-results').append(
@@ -183,7 +184,7 @@ function renderStateParkInfo(dataInfo) {
     // via Google Maps Geocode API
     const latitude = dataInfo.data[i].latitude;
     const longitude = dataInfo.data[i].longitude;
-    fetchAddress(latitude, longitude);
+    // fetchAddress(latitude, longitude);
     // ^^^^^^^^^^^^^^
     // Suspending attempt to get address because exeeded timebox
     // ** REFACTOR ** later
