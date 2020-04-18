@@ -16,6 +16,7 @@
 
 // The user must be able to make multiple searches and see only the results for the current search.
 
+// REMAINING TO DO:
 // As a stretch goal, try adding the park's address to the results.
 
 // end REQUIREMENTS ///////////////////////////////////////////
@@ -41,7 +42,7 @@ function init() {
 
 function formatQueryParams(params) {
   const queryItems = Object.keys(params).map( key => {
-    return `${key}=${params[key]}`;
+    return `${encodeURIComponent(key)}=${encodeURIComponent(params[key])}`;
   });
   return queryItems.join('&');  
 }
