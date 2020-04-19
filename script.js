@@ -10,8 +10,8 @@
 
 // INIT
 function init() {
-  renderDropdownMenu();
   handleSubmission();
+  // renderDropdownMenu();
 }
 
 // MISCELLANEOUS /////////////////////////////////////////////
@@ -28,33 +28,6 @@ function formatQueryParams(params) {
   });
   return queryItems.join('&');  
 }
-
-function fetchAddress(latitude, longitude) {
-
-  const apiKey =  'removed so not public';
-  const baseURL = 'https://maps.googleapis.com/maps/api/geocode/json';
-
-  const params = {
-    key: apiKey,
-    latlng: latitude + ',' + longitude,
-  };
-  
-  const queryString = formatQueryParams(params);
-  
-  const url = baseURL + '?' + queryString;
-  console.log(url);
-
-  fetch(url)
-  .then(response => response.json)
-  .then(data => {
-    console.log(data);
-    // renderStateParkAddress(data);
-  })
-  .catch(err => console.log(err));
-
-}
-
-
 
 function fetchStateParkInfo(states, maxResults) {
   console.log(states, maxResults);
@@ -106,86 +79,34 @@ function fetchStateParkInfo(states, maxResults) {
   });
 }
 
-function fetchListOfStates() {
-  // fetch list of states available
-  // ^^^^^^^^ couldn't find in National Park Service API so added store.js file to locally store an array of objects of states by name and abbreviation to populate dropdown.
-}
-
 
 
 // TEMPLATE GENERATORS ///////////////////////////////////////
 
-function generateDropdownMenu(STATES) {
-  // extract .map all relevant key/values into array
-  // return as string of <options>
-  // console.log(STATES);
-  const options = STATES.map(item => {
-    // console.log(item.name);
-    return `<option value=${item.abbreviation}>${item.name}</option>`;
-  });
-  // console.log(options);
-  return `
-    <option value="" disabled selected>Select a State</option>
-    ${options}
-  `;
+function generateStateParkInfo(dataInfo) {
+  const arr = [];
+  for (let i = 0; i < dataInfo.data.length; i++) {
+    arr.push(`<li> 
+        <h3 class="park-name">${dataInfo.data[i].fullName}</h3>
+        <img src="${dataInfo.data[i].images[0].url}" alt="${dataInfo.data[i].images[0].caption}">
+        <p class="park-description"><b>${dataInfo.data[i].states}</b> ${dataInfo.data[i].description}</p>
+        <p class="park-website"><a href="${dataInfo.data[i].url}" target="_blank">${dataInfo.data[i].url}</a></p>
+        <p class="park-address"></p>
+      </li>
+    `);
+  }
+  return arr.join('');
 }
 
 
 
 // RENDERING FUNCTIONS ///////////////////////////////////////
 
-// N/A
-function renderStateParkAddress(dataInfo) {
-  console.log(JSON.stringify(dataInfo));
-  // $('#js-address-results').append(
-  //   `<li>
-  //       <p>${dataInfo.results[0].formatted_address}</p>
-  //   </li>`
-  // );
-
-  $('#js-address-test').removeClass('hidden');
-
-}
-
-
-// ** REFACTOR **
-// to use generateStateParkInfo(), too.
-
-// generate HTML & then render into DOM
 function renderStateParkInfo(dataInfo) {
-  // const results = generateStateParkInfo(dataInfo);
+  const results = generateStateParkInfo(dataInfo);
 
-  for (let i=0; i < dataInfo.data.length; i++) {
-
-    // get latitude and longitude to reverse geocode the address
-    // via Google Maps Geocode API
-    const latitude = dataInfo.data[i].latitude;
-    const longitude = dataInfo.data[i].longitude;
-    // fetchAddress(latitude, longitude);
-    // ^^^^^^^^^^^^^^
-    // Suspending attempt to get address because exeeded timebox
-    // ** REFACTOR ** later
-
-    // proceed with rendering National Park data
-    $('#js-list-results').append(
-      `<li> 
-        <h3 class="park-name">${dataInfo.data[i].fullName}</h3>
-        <img src="${dataInfo.data[i].images[0].url}" alt="${dataInfo.data[i].images[0].caption}">
-        <p class="park-description"><b>${dataInfo.data[i].states}</b> ${dataInfo.data[i].description}</p>
-        <p class="park-website"><a href="${dataInfo.data[i].url}" target="_blank">${dataInfo.data[i].url}</a></p>
-        <p class="park-address"></p>
-      </li>`
-    );
-  }
+  $('#js-list-results').html(results);
   $('#js-results').removeClass('hidden');
-}
-
-function renderDropdownMenu() {
-  // generate list of <options>
-  const listOfStates = generateDropdownMenu(STATES);
-
-  // render HTML in the DOM
-  $('#js-select-state').html(listOfStates);
 }
 
 
@@ -201,6 +122,96 @@ function handleSubmission() {
     $('#js-list-results').empty();
   });
 }
+
+
+// GRAVEYARD /////////////////////////////////////////////
+
+// 1. SELECT STATE VIA DROPDOWN //////////////////////////
+
+/*
+
+function generateDropdownMenu(STATES) {
+  const options = STATES.map(item => {
+    return `<option value=${item.abbreviation}>${item.name}</option>
+    `;
+  });
+  return `<option value="" disabled selected>Select a State</option>
+    ${options}
+  `;
+}
+
+function renderDropdownMenu() {
+  const listOfStates = generateDropdownMenu(STATES);
+  $('#js-select-state').html(listOfStates);
+}
+
+
+
+
+
+
+*/
+
+// 2. GET ADDRESS ////////////////////////////////////////
+
+/*
+
+function renderStateParkAddress(dataInfo) {
+  console.log(JSON.stringify(dataInfo));
+  // $('#js-address-results').append(
+  //   `<li>
+  //       <p>${dataInfo.results[0].formatted_address}</p>
+  //   </li>`
+  // );
+
+  $('#js-address-test').removeClass('hidden');
+
+}
+
+function fetchAddress(latitude, longitude) {
+
+  const apiKey =  'removed so not public';
+  const baseURL = 'https://maps.googleapis.com/maps/api/geocode/json';
+
+  const params = {
+    key: apiKey,
+    latlng: latitude + ',' + longitude,
+  };
+  
+  const queryString = formatQueryParams(params);
+  
+  const url = baseURL + '?' + queryString;
+  console.log(url);
+
+  fetch(url)
+  .then(response => response.json)
+  .then(data => {
+    console.log(data);
+    // renderStateParkAddress(data);
+  })
+  .catch(err => console.log(err));
+
+}
+
+
+// <excerpt within renderStateParkInfo(dataInfo)>
+
+  for (let i=0; i < dataInfo.data.length; i++) {
+
+    // get latitude and longitude to reverse geocode the address
+    // via Google Maps Geocode API
+    const latitude = dataInfo.data[i].latitude;
+    const longitude = dataInfo.data[i].longitude;
+    // fetchAddress(latitude, longitude);
+    // ^^^^^^^^^^^^^^
+    // Suspending attempt to get address because exeeded timebox
+    // ** REFACTOR ** later
+  
+// </excerpt>
+
+*/
+
+
 
 // INVOKE INIT
 $(init);
