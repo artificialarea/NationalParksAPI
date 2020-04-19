@@ -1,6 +1,8 @@
 'use strict';
 /* eslint-disable indent */
 
+const statesChosen = [];
+
 const STATES = [
   {
     name: 'Alabama',

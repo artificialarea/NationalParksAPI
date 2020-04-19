@@ -1,32 +1,8 @@
 'use strict';
 
-// GOAL: Display a list of national parks in an area with info
-// REQUIREMENTS //////////////////////////////////////////////
-
-// The user must be able to search for parks in one or more states.
-
-// The user must be able to set the max number of results, with a default of 10.
-
-// The search must trigger a call to NPS's API.
-
-// The parks in the given state must be displayed on the page. Include at least:
-// Full name
-// Description
-// Website URL
-
-// The user must be able to make multiple searches and see only the results for the current search.
-
-// REMAINING TO DO:
-// As a stretch goal, try adding the park's address to the results.
-
-// end REQUIREMENTS ///////////////////////////////////////////
-
-
-
-
 //////////////////////////////////////////////////////////////
 // SEPARATION OF CONCERNS: TYPES OF FUNCTIONS
-// (Miscellaneous): Fetch Data
+// Miscellaneous (incl Fetch Requests)
 // Template Generators
 // Rendering Functions
 // Event Handlers
@@ -80,8 +56,8 @@ function fetchAddress(latitude, longitude) {
 
 
 
-function fetchStateParkInfo(state, maxResults) {
-  console.log(state, maxResults);
+function fetchStateParkInfo(states, maxResults) {
+  console.log(states, maxResults);
 
   const apiKey = '5sSsm7fFCYCquxRBY5P0IVUu9Y1OX70vBJb4algf';
   const baseURL = 'https://developer.nps.gov/api/v1/parks';
@@ -95,8 +71,9 @@ function fetchStateParkInfo(state, maxResults) {
   };  
 
   const params = {
-    stateCode: state,
+    stateCode: states,
     limit: maxResults,
+    fields: 'images',   // extra: https://www.nps.gov/subjects/developer/faqs.htm#CP_JUMP_5619871
     api_key: apiKey,
   };
 
@@ -193,22 +170,17 @@ function renderStateParkInfo(dataInfo) {
     $('#js-list-results').append(
       `<li> 
         <h3 class="park-name">${dataInfo.data[i].fullName}</h3>
-        <p class="park-description">${dataInfo.data[i].description}</p>
+        <img src="${dataInfo.data[i].images[0].url}" alt="${dataInfo.data[i].images[0].caption}">
+        <p class="park-description"><b>${dataInfo.data[i].states}</b> ${dataInfo.data[i].description}</p>
         <p class="park-website"><a href="${dataInfo.data[i].url}" target="_blank">${dataInfo.data[i].url}</a></p>
         <p class="park-address"></p>
       </li>`
     );
   }
-  // <li class="park-address">${dataInfo.data[i].addresses[0]}<li>
-  // ^^^^^^^ ** REFACTOR **
-  // there can be multiple addresses, e.g. addresses[0], addresses[1], etc
   $('#js-results').removeClass('hidden');
 }
 
 function renderDropdownMenu() {
-  // fetch list of states available
-  // ^^^^^^^^ couldn't find in National Park Service API so added store.js file to locally store an array of objects of states by name and abbreviation to populate dropdown.
-  
   // generate list of <options>
   const listOfStates = generateDropdownMenu(STATES);
 
@@ -222,9 +194,9 @@ function renderDropdownMenu() {
 function handleSubmission() {
   $('#search-form').on('submit', event => {
     event.preventDefault();
-    const selectedState = $('#js-select-state').val();
+    const selectedStates = $('#js-select-state').val();
     const maxResults = $('#max-num-results').val();
-    fetchStateParkInfo(selectedState, maxResults);
+    fetchStateParkInfo(selectedStates, maxResults);
     // clear out previous result, if applicable
     $('#js-list-results').empty();
   });
