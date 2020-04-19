@@ -18,13 +18,7 @@ function init() {
 
 function formatQueryParams(params) {
   const queryItems = Object.keys(params).map( key => {
-    return `${key}=${params[key]}`;
-
-    // had to remove encodeURIComponent 
-    // because for google maps URL it converts the comma (,)
-    // in latlng to %2C 
-    // e.g. ...latlng=37.81005871%2C-122.4244415
-    // return `${encodeURIComponent(key)}=${encodeURIComponent(params[key])}`;
+    return `${encodeURIComponent(key)}=${encodeURIComponent(params[key])}`;
   });
   return queryItems.join('&');  
 }
@@ -35,19 +29,19 @@ function fetchStateParkInfo(states, maxResults) {
   const apiKey = '5sSsm7fFCYCquxRBY5P0IVUu9Y1OX70vBJb4algf';
   const baseURL = 'https://developer.nps.gov/api/v1/parks';
 
-  // Header currently rejected, so embedding in params for now =/
-  // ** REFACTOR **
-  // doc: https://www.nps.gov/subjects/developer/guides.htm
+  // Dunno why this doesn't work here, 
+  // but it works in Postman?
   const options = {
     headers: new Headers({
       'X-Api-Key': apiKey})   
-  };  
+  };
 
   const params = {
     stateCode: states,
     limit: maxResults,
-    fields: 'images',   // extra: https://www.nps.gov/subjects/developer/faqs.htm#CP_JUMP_5619871
-    api_key: apiKey,
+    // extra param, per: https://www.nps.gov/subjects/developer/faqs.htm#CP_JUMP_5619871
+    fields: 'images',   
+    // api_key: apiKey,
   };
 
   const queryString = formatQueryParams(params);
@@ -59,8 +53,8 @@ function fetchStateParkInfo(states, maxResults) {
   // INFORMING THE USER TO BE PATIENT
   $('.js-please-wait').removeClass('hidden').html('<b>Searching...</b> Please be patient wait while we fetch this data for you...');
 
-  // fetch(url, options)
-  fetch(url)
+  fetch(url, options) // disabled because 'options' object returns 404
+  // fetch(url)
   .then(response => {
     console.log('response to fetch query');
     if(!response.ok) {
@@ -208,6 +202,19 @@ function fetchAddress(latitude, longitude) {
     // ** REFACTOR ** later
   
 // </excerpt>
+
+function formatQueryParams(params) {
+  const queryItems = Object.keys(params).map( key => {
+    return `${key}=${params[key]}`;
+
+    // had to remove encodeURIComponent 
+    // because for google maps URL it converts the comma (,)
+    // in latlng to %2C 
+    // e.g. ...latlng=37.81005871%2C-122.4244415
+    // return `${encodeURIComponent(key)}=${encodeURIComponent(params[key])}`;
+  });
+  return queryItems.join('&');  
+}
 
 */
 
