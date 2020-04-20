@@ -39,9 +39,8 @@ function fetchStateParkInfo(states, maxResults) {
   };
 
   const queryString = formatQueryParams(params);
-  
   const url = baseURL + '?' + queryString;
-  console.log(url);
+  // console.log(url);
   
   // BECAUSE OFTEN IT TAKES SO LONG FOR THE PROMISE TO BE FULFILLED
   // INFORMING THE USER TO BE PATIENT ;P
@@ -49,7 +48,7 @@ function fetchStateParkInfo(states, maxResults) {
 
   fetch(url)
   .then(response => {
-    // console.log('response to fetch query fulfilled');
+    // console.log('fetch promise fulfilled');
     if(!response.ok) {
       throw new Error(response.statusText);
     }
@@ -114,6 +113,16 @@ function handleSubmission() {
 
 // INVOKE INIT
 $(init);
+
+
+
+
+
+
+
+
+
+
 
 
 

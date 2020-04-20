@@ -15,6 +15,14 @@ main {
   margin: auto;
 }
 
+div {
+  display: inline-block;
+}
+
+div.number {
+  margin: 0 0 0 5px;
+}
+
 img {
   width: 100%;
 }
@@ -51,15 +59,15 @@ li:first-child .park-name {
 
 label {
   display: block;
-  margin: 5px 0;
-  font-size: 0.9rem;
+  margin: 0 5px 5px 5px;
+  font-size: 0.8rem;
 }
 
 input {
   display: block;
   margin: 0 0 10px 0;
   padding: 5px 10px;
-  width: 400px;
+  width: 150px;
 }
 
 input#max-num-results {
@@ -67,8 +75,10 @@ input#max-num-results {
 }
 
 button {
-  margin: 10px 0 10px 0;
+  display: inline-block;
+  margin: 10px 0 10px 5px;
   padding: 5px 10px;
+  /* margin: 0 0 0 20px; */
 }
 
 .hidden {

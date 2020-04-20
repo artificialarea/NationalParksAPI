@@ -19,10 +19,14 @@
       <h1>National Park Service Finder</h1>
     </header>
     <form id="search-form">
-      <label for="select-date">State(s):</label>
-      <input type="text" id="js-select-state" name="select-state" placeholder="enter state code (like CA, NY, etc)..." required></select>
-      <label for="max-num-results">Number of results:</label>
-      <input type="text" id="max-num-results" name="max-num-results" value="10" required>
+      <div class="state">
+        <label for="select-state">State Code</label>
+        <input type="text" id="js-select-state" name="select-state" placeholder="e.g. CA, NY, FL..." required></select>
+      </div>
+      <div class="number">
+        <label for="max-num-results">Results</label>
+        <input type="text" id="max-num-results" name="max-num-results" value="10" required>
+      </div>
       <button type="submit">Submit</button>
     </form>
 
