@@ -11,7 +11,7 @@
 // INIT
 function init() {
   handleSubmission();
-  // renderDropdownMenu();
+  renderDropdownMenu();
 }
 
 // MISCELLANEOUS /////////////////////////////////////////////
@@ -108,6 +108,25 @@ function handleSubmission() {
     // clear out previous result, if applicable
     $('#js-list-results').empty();
   });
+}
+
+
+
+// FOR STATE GLOSSARY //////////////////////////
+
+function generateDropdownMenu(STATES) {
+  const options = STATES.map(item => {
+    return `<option value=""${item.abbreviation}"">${item.abbreviation} (${item.name})</option>
+    `;
+  });
+  return `<option value="" disabled selected>State Codes</option>
+    ${options}
+  `;
+}
+
+function renderDropdownMenu() {
+  const listOfStates = generateDropdownMenu(STATES);
+  $('#js-glossary').html(listOfStates);
 }
 
 

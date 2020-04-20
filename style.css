@@ -74,6 +74,20 @@ input#max-num-results {
   max-width: 60px;
 }
 
+select {
+  /* display: block; */
+  box-sizing: content-box;
+  /* margin: 0 0 0 20px; */
+  padding: 5px 10px;
+  color: rgb(19, 127, 228);
+}
+
+.glossary {
+  /* margin: 0 0 0 110px; */
+  float: right;
+  color: rgb(19, 127, 228);
+}
+
 button {
   display: inline-block;
   margin: 10px 0 10px 5px;

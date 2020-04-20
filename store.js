@@ -44,10 +44,10 @@ const STATES = [
   //     name: 'District Of Columbia',
   //     abbreviation: 'DC'
   // },
-  {
-      name: 'Federated States Of Micronesia',
-      abbreviation: 'FM'
-  },
+  // {
+  //     name: 'Federated States Of Micronesia',
+  //     abbreviation: 'FM'
+  // },
   {
       name: 'Florida',
       abbreviation: 'FL'
