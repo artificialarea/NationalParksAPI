@@ -24,7 +24,7 @@ function formatQueryParams(params) {
 }
 
 function fetchStateParkInfo(states, maxResults) {
-  console.log(states, maxResults);
+  // console.log(states, maxResults);
 
   const apiKey = '5sSsm7fFCYCquxRBY5P0IVUu9Y1OX70vBJb4algf';
   const baseURL = 'https://developer.nps.gov/api/v1/parks';
@@ -32,7 +32,8 @@ function fetchStateParkInfo(states, maxResults) {
   const params = {
     stateCode: states,
     limit: maxResults,
-    // extra param not in requirements, per: https://www.nps.gov/subjects/developer/faqs.htm#CP_JUMP_5619871
+    // extra param not in requirements
+    // per: https://www.nps.gov/subjects/developer/faqs.htm#CP_JUMP_5619871
     fields: 'images',   
     api_key: apiKey,
   };
@@ -42,13 +43,13 @@ function fetchStateParkInfo(states, maxResults) {
   const url = baseURL + '?' + queryString;
   console.log(url);
   
-  // BECAUSE IT TAKES SO LONG FOR THE PROMISE TO BE FULFILLED
-  // INFORMING THE USER TO BE PATIENT
+  // BECAUSE OFTEN IT TAKES SO LONG FOR THE PROMISE TO BE FULFILLED
+  // INFORMING THE USER TO BE PATIENT ;P
   $('.js-please-wait').removeClass('hidden').html('<b>Searching...</b> Please be patient wait while we fetch this data for you...');
 
   fetch(url)
   .then(response => {
-    console.log('response to fetch query');
+    // console.log('response to fetch query fulfilled');
     if(!response.ok) {
       throw new Error(response.statusText);
     }
@@ -90,7 +91,6 @@ function generateStateParkInfo(dataInfo) {
 
 function renderStateParkInfo(dataInfo) {
   const results = generateStateParkInfo(dataInfo);
-
   $('#js-list-results').html(results);
   $('#js-results').removeClass('hidden');
 }
@@ -101,8 +101,10 @@ function renderStateParkInfo(dataInfo) {
 function handleSubmission() {
   $('#search-form').on('submit', event => {
     event.preventDefault();
-    const selectedStates = $('#js-select-state').val();
     const maxResults = $('#max-num-results').val();
+    const selectedStatesPre = $('#js-select-state').val();
+    // precaution to remove potential whitespace within string
+    const selectedStates = selectedStatesPre.split(' ').join('');
     fetchStateParkInfo(selectedStates, maxResults);
     // clear out previous result, if applicable
     $('#js-list-results').empty();
@@ -110,6 +112,8 @@ function handleSubmission() {
 }
 
 
+// INVOKE INIT
+$(init);
 
 
 
@@ -228,5 +232,3 @@ function formatQueryParams(params) {
 
 
 
-// INVOKE INIT
-$(init);
