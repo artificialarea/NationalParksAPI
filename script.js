@@ -29,19 +29,12 @@ function fetchStateParkInfo(states, maxResults) {
   const apiKey = '5sSsm7fFCYCquxRBY5P0IVUu9Y1OX70vBJb4algf';
   const baseURL = 'https://developer.nps.gov/api/v1/parks';
 
-  // Dunno why this doesn't work here, 
-  // but it works in Postman?
-  const options = {
-    headers: new Headers({
-      'X-Api-Key': apiKey})   
-  };
-
   const params = {
     stateCode: states,
     limit: maxResults,
-    // extra param, per: https://www.nps.gov/subjects/developer/faqs.htm#CP_JUMP_5619871
+    // extra param not in requirements, per: https://www.nps.gov/subjects/developer/faqs.htm#CP_JUMP_5619871
     fields: 'images',   
-    // api_key: apiKey,
+    api_key: apiKey,
   };
 
   const queryString = formatQueryParams(params);
@@ -53,8 +46,7 @@ function fetchStateParkInfo(states, maxResults) {
   // INFORMING THE USER TO BE PATIENT
   $('.js-please-wait').removeClass('hidden').html('<b>Searching...</b> Please be patient wait while we fetch this data for you...');
 
-  fetch(url, options) // disabled because 'options' object returns 404
-  // fetch(url)
+  fetch(url)
   .then(response => {
     console.log('response to fetch query');
     if(!response.ok) {
@@ -118,6 +110,16 @@ function handleSubmission() {
 }
 
 
+
+
+
+// _                  _         _                   
+// | |                | |       | |                  
+// | |_ ___  _ __ ___ | |__  ___| |_ ___  _ __   ___ 
+// | __/ _ \| '_ ` _ \| '_ \/ __| __/ _ \| '_ \ / _ \
+// | || (_) | | | | | | |_) \__ \ || (_) | | | |  __/
+//  \__\___/|_| |_| |_|_.__/|___/\__\___/|_| |_|\___|
+
 // GRAVEYARD /////////////////////////////////////////////
 
 // 1. SELECT STATE VIA DROPDOWN //////////////////////////
@@ -166,6 +168,12 @@ function fetchAddress(latitude, longitude) {
 
   const apiKey =  'removed so not public';
   const baseURL = 'https://maps.googleapis.com/maps/api/geocode/json';
+
+  // should I use Headers to pass apiKey instead via fetch(url, options)?
+  const options = {
+    headers: new Headers({
+      'X-Api-Key': apiKey})   
+  };
 
   const params = {
     key: apiKey,
