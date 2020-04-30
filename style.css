@@ -15,6 +15,11 @@ main {
   margin: auto;
 }
 
+form {
+  display: inline-block;
+  max-width: 350px;
+}
+
 div {
   display: inline-block;
 }
@@ -82,13 +87,14 @@ select {
   color: rgb(19, 127, 228);
 }
 
-.glossary {
+.glossary { /* RB, too */
   /* margin: 0 0 0 110px; */
-  float: right;
+  /* float: left; */
+  display: inline-block;
   color: rgb(19, 127, 228);
 }
 
-button {
+button { /* RB, too */
   display: inline-block;
   margin: 10px 0 10px 5px;
   padding: 5px 10px;
@@ -106,3 +112,27 @@ button {
 .js-please-wait {
   color: rgb(19, 127, 228);
 }
+
+/*/////////////////////////////////////////////////////////
+// RESPONSOVE BREAKPOINTS /////////////////////////////////
+/////////////////////////////////////////////////////////*/
+
+/*550////////////////////////////////////////////////////*/
+@media screen and (min-width: 550px) {
+
+
+  button {
+    margin: 10px 40px 10px 5px;
+  }
+
+}
+
+/*768////////////////////////////////////////////////////*/
+@media screen and (min-width: 760px) {}
+
+/*1024///////////////////////////////////////////////////*/ 
+@media screen and (min-width: 1024px) {}
+
+/*1200///////////////////////////////////////////////////*/
+@media screen and (min-width: 1200px) {}
+
