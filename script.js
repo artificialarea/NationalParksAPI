@@ -44,11 +44,11 @@ function fetchStateParkInfo(states, maxResults) {
 
   const queryString = formatQueryParams(params);
   const url = baseURL + '?' + queryString;
-
   
-  // BECAUSE OFTEN IT TAKES SO LONG FOR THE PROMISE TO BE FULFILLED
+  // DUE TO LATENCY FOR THE PROMISE TO BE FULFILLED
   // INFORMING THE USER TO BE PATIENT ;P
   $('.js-please-wait').removeClass('hidden').html('<b>Searching...</b> Please be patient wait while we fetch this data for you...');
+  $('.js-error-msg').addClass('hidden').html('');
 
   fetch(url)
   .then(response => {
@@ -63,6 +63,7 @@ function fetchStateParkInfo(states, maxResults) {
   })
   .catch(err => {
     console.log(err);
+    $('.js-please-wait').addClass('hidden').html('');
     $('.js-error-msg').removeClass('hidden').html(err);
   });
 }
